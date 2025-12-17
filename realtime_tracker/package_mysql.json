@@ -1,0 +1,17 @@
+{
+  "name": "water-quality-mysql-api",
+  "version": "1.0.0",
+  "description": "MySQL API server for water quality data",
+  "main": "mysql_api_server.js",
+  "scripts": {
+    "start": "node mysql_api_server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "mysql2": "^3.6.5"
+  }
+}
