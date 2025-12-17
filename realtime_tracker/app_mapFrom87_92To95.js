@@ -660,6 +660,6 @@ app.get("/api/last-known-location/device500", async (req, res) => {
 
 
 // Start the server
-server.listen(3001, () => {
-    console.log("Server is running on http://localhost:3001");
+server.listen(8345, () => {
+    console.log("Server is running on http://localhost:8345");
 });
