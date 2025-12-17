@@ -75,6 +75,8 @@ sudo systemctl enable nginx
 
 # Install Node.js 18
 echo "9. Installing Node.js 18..."
+sudo apt remove -y nodejs libnode-dev libnode72 2>/dev/null || true
+sudo apt autoremove -y
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt install -y nodejs
 
