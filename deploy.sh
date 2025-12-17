@@ -96,7 +96,7 @@ After=network.target
 Type=simple
 User=www-data
 WorkingDirectory=/var/www/snras_website/realtime_tracker
-ExecStart=/usr/bin/node app.js
+ExecStart=/usr/bin/node app_mapFrom87_92To95.js
 Restart=always
 Environment=NODE_ENV=production
 
