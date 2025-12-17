@@ -1,0 +1,49 @@
+# Node modules and package manager files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+
+# Environment files
+.env
+.env.*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Firebase / Google service account (sensitive)
+serviceAccount.json
+
+# Project-specific
+realtime_tracker/node_modules/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# macOS, Windows
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+
+# Misc
+.cache/
+*.sqlite
+*.db
