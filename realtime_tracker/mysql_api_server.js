@@ -82,6 +82,7 @@ devices.forEach(deviceId => {
                             AVG(tds) as tds,
                             AVG(ph) as ph,
                             AVG(temp) as temp,
+                            AVG(co2) as co2,
                             DATE_FORMAT(STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s'), '%Y-%m-%d %H:00:00') as dateTime
                         FROM waterdata${deviceId}
                         WHERE STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s') >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
@@ -98,6 +99,7 @@ devices.forEach(deviceId => {
                             AVG(tds) as tds,
                             AVG(ph) as ph,
                             AVG(temp) as temp,
+                            AVG(co2) as co2,
                             DATE_FORMAT(STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s'), '%Y-%m-%d') as dateTime
                         FROM waterdata${deviceId}
                         WHERE STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s') >= DATE_SUB(NOW(), INTERVAL 7 DAY)
@@ -114,6 +116,7 @@ devices.forEach(deviceId => {
                             AVG(tds) as tds,
                             AVG(ph) as ph,
                             AVG(temp) as temp,
+                            AVG(co2) as co2,
                             DATE_FORMAT(STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s'), '%Y-%m-%d') as dateTime
                         FROM waterdata${deviceId}
                         WHERE STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s') >= DATE_SUB(NOW(), INTERVAL 30 DAY)
@@ -130,6 +133,7 @@ devices.forEach(deviceId => {
                             AVG(tds) as tds,
                             AVG(ph) as ph,
                             AVG(temp) as temp,
+                            AVG(co2) as co2,
                             DATE_FORMAT(STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s'), '%Y-%m') as dateTime
                         FROM waterdata${deviceId}
                         WHERE STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s') >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
@@ -167,6 +171,7 @@ app.post("/analytics", async (req, res) => {
                         AVG(tds) as tds,
                         AVG(ph) as ph,
                         AVG(temp) as temp,
+                        AVG(co2) as co2,
                         DATE_FORMAT(STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s'), '%Y-%m-%d %H:00:00') as dateTime
                     FROM waterdata${deviceId}
                     WHERE STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s') >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
@@ -182,6 +187,7 @@ app.post("/analytics", async (req, res) => {
                         AVG(tds) as tds,
                         AVG(ph) as ph,
                         AVG(temp) as temp,
+                        AVG(co2) as co2,
                         DATE_FORMAT(STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s'), '%Y-%m-%d') as dateTime
                     FROM waterdata${deviceId}
                     WHERE STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s') >= DATE_SUB(NOW(), INTERVAL 7 DAY)
@@ -197,6 +203,7 @@ app.post("/analytics", async (req, res) => {
                         AVG(tds) as tds,
                         AVG(ph) as ph,
                         AVG(temp) as temp,
+                        AVG(co2) as co2,
                         DATE_FORMAT(STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s'), '%Y-%m-%d') as dateTime
                     FROM waterdata${deviceId}
                     WHERE STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s') >= DATE_SUB(NOW(), INTERVAL 30 DAY)
@@ -212,6 +219,7 @@ app.post("/analytics", async (req, res) => {
                         AVG(tds) as tds,
                         AVG(ph) as ph,
                         AVG(temp) as temp,
+                        AVG(co2) as co2,
                         DATE_FORMAT(STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s'), '%Y-%m-%d') as dateTime
                     FROM waterdata${deviceId}
                     WHERE STR_TO_DATE(dateTime, '%d-%m-%Y %H:%i:%s') >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
