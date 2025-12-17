@@ -1,0 +1,56 @@
+{
+  "devices": {
+    "Y041653632892500": {
+      "deviceName": "Device 500",
+      "perimeter": "",
+      "units": { "do": "mg/L", "tds": "ppm", "temperature": "°C" },
+      "createdAt": 1762214400000
+    },
+    "Y041653632892501": {
+      "deviceName": "Device 501",
+      "perimeter": "",
+      "units": { "do": "mg/L", "tds": "ppm", "temperature": "°C" },
+      "createdAt": 1762214400000
+    },
+    "Y041653632892502": {
+      "deviceName": "Device 502",
+      "perimeter": "",
+      "units": { "do": "mg/L", "tds": "ppm", "temperature": "°C" },
+      "createdAt": 1762214400000
+    },
+    "Y041653632892503": {
+      "deviceName": "Device 503",
+      "perimeter": "",
+      "units": { "do": "mg/L", "tds": "ppm", "temperature": "°C" },
+      "createdAt": 1762214400000
+    },
+    "Y041653632892504": {
+      "deviceName": "Device 504",
+      "perimeter": "",
+      "units": { "do": "mg/L", "tds": "ppm", "temperature": "°C" },
+      "createdAt": 1762214400000
+    },
+    "Y041653632892505": {
+      "deviceName": "Device 505",
+      "perimeter": "",
+      "units": { "do": "mg/L", "tds": "ppm", "temperature": "°C" },
+      "createdAt": 1762214400000
+    }
+  },
+  "keepAlive": {
+    "Y041653632892500": { "online": false },
+    "Y041653632892501": { "online": false },
+    "Y041653632892502": { "online": false },
+    "Y041653632892503": { "online": false },
+    "Y041653632892504": { "online": false },
+    "Y041653632892505": { "online": false }
+  },
+  "data": {
+    "Y041653632892500": {},
+    "Y041653632892501": {},
+    "Y041653632892502": {},
+    "Y041653632892503": {},
+    "Y041653632892504": {},
+    "Y041653632892505": {}
+  }
+}

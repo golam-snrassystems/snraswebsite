@@ -39,7 +39,7 @@ async function getData() {
         if (user) {
 
             // console.log('------------user Uid', user.uid, user.email);
-            // User is authenticated, serve main.html
+            // User is authenticated, serve main.html/
             // window.location.href = "main.html";
             document.getElementById('bodyId').style.visibility = "visible";
             let body = document.getElementById('containerId');
@@ -49,14 +49,14 @@ async function getData() {
             flag9 = "firebase"
             document.getElementById("sqlTable").style.display = "none";
 
-            let fetchData1 = await fetch("http://34.100.201.70:8345/getMaxSize95", {
-                method: "GET",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            })
-            let resdata = await fetchData1.json()
-            var reciveData = resdata[0]['MAX(id)']
+            // let fetchData1 = await fetch("http://34.100.201.70:8345/getMaxSize95", {
+            //     method: "GET",
+            //     headers: {
+            //         "Content-type": "application/json; charset=UTF-8"
+            //     }
+            // })
+            // let resdata = await fetchData1.json()
+            // var reciveData = resdata[0]['MAX(id)']
 
             firebase.database().ref('data/' + 'Y041653632892495/').orderByValue().limitToLast(50).on('child_added', (snapshot) => {
 
@@ -82,7 +82,7 @@ async function getData() {
             });
 
             window.onload = getData;
-            var srNo = reciveData - 49;
+            var srNo = 1;//reciveData - 49;
             // var SerialNo = 50
 
             function addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE, ammonia) {
@@ -319,7 +319,10 @@ async function getAllData() {
     await fetch('http://34.100.201.70:8345/getMaxSize95').then(response => response.json()).then(data => {
         // console.log("------------------responsemax value-------", data[0]['MAX(id)'])
         totalItems = data[0]['MAX(id)']
-    }).catch(error => console.error(error));
+    }).catch(error => {
+        console.error(error);
+        totalItems = 0;
+    });
 
 
     function showPageInfo() {
@@ -358,7 +361,8 @@ async function getAllData() {
             waterData(id, dateTime, deviceId, resdo, tds, ph, temp, ammonia)
         });
 
-        totalItems = totalItems++;
+
+        // totalItems should not be changed here; server provides the correct total
         currentPage = page;
         showPageInfo();
 

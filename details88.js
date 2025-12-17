@@ -49,14 +49,14 @@ async function getData() {
             flag9 = "firebase"
             document.getElementById("sqlTable").style.display = "none";
 
-            let fetchData1 = await fetch("http://34.100.201.70:8345/getMaxSize88", {
-                method: "GET",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            })
-            let resdata = await fetchData1.json()
-            var reciveData = resdata[0]['MAX(id)']
+            // let fetchData1 = await fetch("http://34.100.201.70:8345/getMaxSize88", {
+            //     method: "GET",
+            //     headers: {
+            //         "Content-type": "application/json; charset=UTF-8"
+            //     }
+            // })
+            // let resdata = await fetchData1.json()
+            // var reciveData = resdata[0]['MAX(id)']
 
             firebase.database().ref('data/' + 'Y041653632892488/').orderByValue().limitToLast(50).on('child_added', (snapshot) => {
 
@@ -78,7 +78,7 @@ async function getData() {
             });
 
             window.onload = getData;
-            var srNo = reciveData - 49;
+            var srNo = 1;//reciveData - 49;
             // var SerialNo = 50
 
             function addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE) {

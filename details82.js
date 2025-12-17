@@ -14,7 +14,9 @@ async function getData() {
         appId: "1:138665105368:web:0896a5e8062eb9e49844ad",
         measurementId: "G-NNCT5SYCJJ"
     };
-    firebase.initializeApp(firebaseConfig);
+    if (typeof firebase !== 'undefined' && (!firebase.apps || firebase.apps.length === 0)) {
+        try { firebase.initializeApp(firebaseConfig); } catch (e) { /* already initialized */ }
+    }
     const auth = firebase.auth();
 
     keepAlive()
@@ -49,14 +51,14 @@ async function getData() {
             flag9 = "firebase"
             document.getElementById("sqlTable").style.display = "none";
 
-            let fetchData1 = await fetch("http://34.100.201.70:8345/getMaxSize82", {
-                method: "GET",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            })
-            let resdata = await fetchData1.json()
-            var reciveData = resdata[0]['MAX(id)']
+            // let fetchData1 = await fetch("http://34.100.201.70:8345/getMaxSize82", {
+            //     method: "GET",
+            //     headers: {
+            //         "Content-type": "application/json; charset=UTF-8"
+            //     }
+            // })
+            // let resdata = await fetchData1.json()
+            // var reciveData = resdata[0]['MAX(id)']
 
             firebase.database().ref('data/' + 'Y041653632892482/').orderByValue().limitToLast(50).on('child_added', (snapshot) => {
 
@@ -78,7 +80,7 @@ async function getData() {
             });
 
             window.onload = getData;
-            var srNo = reciveData - 49;
+            var srNo = 1;//reciveData - 49;
             // var SerialNo = 50
 
             function addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE) {
@@ -146,7 +148,9 @@ function getGraph() {
     };
 
 
-    firebase.initializeApp(firebaseConfig);
+    if (typeof firebase !== 'undefined' && (!firebase.apps || firebase.apps.length === 0)) {
+        try { firebase.initializeApp(firebaseConfig); } catch (e) { /* already initialized */ }
+    }
     var xValues = []
     var doValues = []
     var tdsValues = []

@@ -14,7 +14,9 @@ async function getData() {
         appId: "1:138665105368:web:0896a5e8062eb9e49844ad",
         measurementId: "G-NNCT5SYCJJ"
     };
-    firebase.initializeApp(firebaseConfig);
+    if (typeof firebase !== 'undefined' && (!firebase.apps || firebase.apps.length === 0)) {
+        try { firebase.initializeApp(firebaseConfig); } catch (e) { /* already initialized */ }
+    }
     const auth = firebase.auth();
 
     keepAlive()
@@ -183,7 +185,9 @@ function getGraph() {
     };
 
 
-    firebase.initializeApp(firebaseConfig);
+    if (typeof firebase !== 'undefined' && (!firebase.apps || firebase.apps.length === 0)) {
+        try { firebase.initializeApp(firebaseConfig); } catch (e) { /* already initialized */ }
+    }
     var xValues = []
     var doValues = []
     var tdsValues = []

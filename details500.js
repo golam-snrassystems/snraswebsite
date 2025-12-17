@@ -1,6 +1,8 @@
 var flag9
 var visibilityFlag = false;
 
+document.addEventListener('DOMContentLoaded', async function() {
+
 async function getData() {
 
     //check firebase authentication  if user authenticate continue else redirect to index,html///////////
@@ -67,9 +69,10 @@ async function getData() {
                 let TDS = userValue.tds
                 let PH = Math.round(parseFloat(userValue.ph) * 10) / 10;
                 let TEMPERATURE = Math.round(parseFloat(userValue.temperature) * 10) / 10;
+                let PERIMETER = userValue.perimeter || '';
                 var time = userValue.time
                 var normaltime = new Date(Number(time))
-                addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE)
+                addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE, PERIMETER)
                 // let time = userValue.time
                 // var normaltime = new Date(Number(time))
                 // addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE)
@@ -81,7 +84,7 @@ async function getData() {
             var srNo = reciveData - 49;
             // var SerialNo = 50
 
-            function addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE) {
+            function addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE, perimeter) {
 
 
                 var tbody = document.getElementById('tbody1')
@@ -95,6 +98,7 @@ async function getData() {
                 var td5 = document.createElement('td')
                 var td6 = document.createElement('td')
                 var td7 = document.createElement('td')
+                var td8 = document.createElement('td')
 
                 // td1.innerHTML = SerialNo
                 td2.innerHTML = srNo
@@ -103,6 +107,7 @@ async function getData() {
                 td5.innerHTML = TDS
                 td6.innerHTML = PH
                 td7.innerHTML = TEMPERATURE
+                td8.innerHTML = perimeter
 
 
                 // trow.appendChild(td1)
@@ -112,6 +117,7 @@ async function getData() {
                 trow.appendChild(td5)
                 trow.appendChild(td6)
                 trow.appendChild(td7)
+                trow.appendChild(td8)
 
                 tbody.insertBefore(trow, firstRow)
                 srNo++;
@@ -347,7 +353,8 @@ async function getAllData() {
             let tds = element.tds
             let ph = element.ph
             let temp = element.temp
-            waterData(id, dateTime, deviceId, resdo, tds, ph, temp)
+            let perimeter = element.perimeter || ''
+            waterData(id, dateTime, deviceId, resdo, tds, ph, temp, perimeter)
         });
 
         totalItems = totalItems++;
@@ -355,7 +362,7 @@ async function getAllData() {
         showPageInfo();
 
 
-        function waterData(id, dateTime, deviceId, resdo, tds, ph, temp) {
+        function waterData(id, dateTime, deviceId, resdo, tds, ph, temp, perimeter) {
             var tbody = document.getElementById('tbody2')
             // var firstRow = tbody.rows[0]
             var trow = document.createElement('tr')
@@ -366,6 +373,7 @@ async function getAllData() {
             var td5 = document.createElement('td')
             var td6 = document.createElement('td')
             var td7 = document.createElement('td')
+            var td8 = document.createElement('td')
 
 
             td1.innerHTML = id
@@ -375,6 +383,7 @@ async function getAllData() {
             td5.innerHTML = tds
             td6.innerHTML = ph
             td7.innerHTML = temp
+            td8.innerHTML = perimeter
 
 
             trow.appendChild(td1)
@@ -384,6 +393,7 @@ async function getAllData() {
             trow.appendChild(td5)
             trow.appendChild(td6)
             trow.appendChild(td7)
+            trow.appendChild(td8)
             // tbody.insertBefore(trow, firstRow)
             tbody.appendChild(trow)
             // srNo++;
@@ -454,7 +464,8 @@ async function AllDataInCsv() {
             resdo: element.do,
             tds: element.tds,
             ph: element.ph,
-            temp: element.temp
+            temp: element.temp,
+            perimeter: element.perimeter || ''
         });
     });
     const csv = Papa.unparse(data);
@@ -580,6 +591,10 @@ async function DownloadPdfAllData() {
 //     // let resdata = await fetchData.json()
 
 // }
+
+getData();
+
+}); // end DOMContentLoaded
 
 
 

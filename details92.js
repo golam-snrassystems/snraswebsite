@@ -14,7 +14,9 @@ async function getData() {
         appId: "1:138665105368:web:0896a5e8062eb9e49844ad",
         measurementId: "G-NNCT5SYCJJ"
     };
-    firebase.initializeApp(firebaseConfig);
+    if (typeof firebase !== 'undefined' && (!firebase.apps || firebase.apps.length === 0)) {
+        firebase.initializeApp(firebaseConfig);
+    }
     const auth = firebase.auth();
 
     keepAlive()
@@ -49,14 +51,14 @@ async function getData() {
             flag9 = "firebase"
             document.getElementById("sqlTable").style.display = "none";
 
-            let fetchData1 = await fetch("http://34.100.201.70:8345/getMaxSize92", {
-                method: "GET",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            })
-            let resdata = await fetchData1.json()
-            var reciveData = resdata[0]['MAX(id)']
+            // let fetchData1 = await fetch("http://34.100.201.70:8345/getMaxSize92", {
+            //     method: "GET",
+            //     headers: {
+            //         "Content-type": "application/json; charset=UTF-8"
+            //     }
+            // })
+            // let resdata = await fetchData1.json()
+            // var reciveData = resdata[0]['MAX(id)']
 
             firebase.database().ref('data/' + 'Y041653632892492/').orderByValue().limitToLast(500).on('child_added', (snapshot) => {
 
@@ -68,12 +70,11 @@ async function getData() {
                 let PH = Math.round(parseFloat(userValue.ph) * 10) / 10;
                 let TEMPERATURE = Math.round(parseFloat(userValue.temperature) * 10) / 10;
                 
-                //  let C02 = userValue.co2;  //CHANGE REQUIRED
-                
-                
+                let C02 = userValue.co2 || '';
+
                 var time = userValue.time
                 var normaltime = new Date(Number(time))
-                addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE) //, C02 CHANGE REQUIRED
+                addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE, C02)
                 // let time = userValue.time
                 // var normaltime = new Date(Number(time))
                 // addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE)
@@ -82,10 +83,10 @@ async function getData() {
             });
 
             window.onload = getData;
-            var srNo = reciveData - 49;
+            var srNo = 1; //reciveData - 49;
             // var SerialNo = 50
 
-            function addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE) { //, co2
+            function addItemToTable(normaltime, DO, TDS, PH, TEMPERATURE, co2) { //, co2
 
 
                 var tbody = document.getElementById('tbody1')
@@ -99,7 +100,7 @@ async function getData() {
                 var td5 = document.createElement('td')
                 var td6 = document.createElement('td')
                 var td7 = document.createElement('td')
-                // var td8 = document.createElement('td')  //co2 CHANGE REQUIRED
+                var td8 = document.createElement('td')  //co2
 
                 // td1.innerHTML = SerialNo
                 td2.innerHTML = srNo
@@ -108,7 +109,7 @@ async function getData() {
                 td5.innerHTML = TDS
                 td6.innerHTML = PH
                 td7.innerHTML = TEMPERATURE
-                // td8.innerHTML = co2         //change required
+                td8.innerHTML = co2
 
                 // trow.appendChild(td1)
                 trow.appendChild(td2)
@@ -117,7 +118,7 @@ async function getData() {
                 trow.appendChild(td5)
                 trow.appendChild(td6)
                 trow.appendChild(td7)
-                //  trow.appendChild(td8) //c02 change required
+                trow.appendChild(td8)
 
                 tbody.insertBefore(trow, firstRow)
                 srNo++;
@@ -152,7 +153,9 @@ function getGraph() {
     };
 
 
-    firebase.initializeApp(firebaseConfig);
+    if (typeof firebase !== 'undefined' && (!firebase.apps || firebase.apps.length === 0)) {
+        firebase.initializeApp(firebaseConfig);
+    }
     var xValues = []
     var doValues = []
     var tdsValues = []
@@ -354,17 +357,16 @@ async function getAllData() {
             let ph = element.ph
             let temp = element.temp
 
-            //  let co2 = element.co2   //change required
+            let co2 = element.co2 || ''
 
-            waterData(id, dateTime, deviceId, resdo, tds, ph, temp) //, co2  change required
+            waterData(id, dateTime, deviceId, resdo, tds, ph, temp, co2)
         });
 
-        totalItems = totalItems++;
         currentPage = page;
         showPageInfo();
 
 
-        function waterData(id, dateTime, deviceId, resdo, tds, ph, temp) {  //, co2 change required
+        function waterData(id, dateTime, deviceId, resdo, tds, ph, temp, co2) {  //, co2 change required
             var tbody = document.getElementById('tbody2')
             // var firstRow = tbody.rows[0]
             var trow = document.createElement('tr')
@@ -375,7 +377,7 @@ async function getAllData() {
             var td5 = document.createElement('td')
             var td6 = document.createElement('td')
             var td7 = document.createElement('td')
-//  var td8 = document.createElement('td')  //co2 change required
+            var td8 = document.createElement('td')  //co2 change required
 
             td1.innerHTML = id
             td2.innerHTML = dateTime
@@ -384,7 +386,7 @@ async function getAllData() {
             td5.innerHTML = tds
             td6.innerHTML = ph
             td7.innerHTML = temp
-            //  td8.innerHTML = co2; //co2 change required
+            td8.innerHTML = co2; //co2 change required
 
 
             trow.appendChild(td1)
@@ -394,7 +396,7 @@ async function getAllData() {
             trow.appendChild(td5)
             trow.appendChild(td6)
             trow.appendChild(td7)
-            //  trow.appendChild(td8) //co2 change required
+            trow.appendChild(td8) //co2 change required
             // tbody.insertBefore(trow, firstRow)
             tbody.appendChild(trow)
             // srNo++;
@@ -466,7 +468,7 @@ async function AllDataInCsv() {
             tds: element.tds,
             ph: element.ph,
             temp: element.temp,
-            // co2: element.co2  //change required
+            co2: element.co2 || ''
         });
     });
     const csv = Papa.unparse(data);
