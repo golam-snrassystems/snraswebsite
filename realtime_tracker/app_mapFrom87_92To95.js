@@ -12,6 +12,19 @@ const io = socketio(server);
 
 // Enable CORS for all routes
 app.use(cors());
+app.use(express.json());
+
+// MySQL connection pool (configure with environment variables or defaults)
+const mysql = require('mysql2/promise');
+const pool = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'snras_api',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'waterQuality',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
 
 // Store the latest coordinates
 //CHANGE REQUIRED
@@ -658,6 +671,61 @@ app.get("/api/last-known-location/device500", async (req, res) => {
     }
 });
 
+///////////////////////////////////////////////////////////////////////////////
+// DATABASE API ENDPOINTS
+///////////////////////////////////////////////////////////////////////////////
+
+// Helper: map frontend device number to table name
+function tableForDevice(device) {
+    // frontend uses numbers like 85, 87, 92, etc.
+    return `waterdata${device}`;
+}
+
+// Generate endpoints for devices present in DB
+const supportedDevices = [85,87,92,93,94,95,96,97,98,99,500];
+supportedDevices.forEach(device => {
+    const table = tableForDevice(device);
+
+    app.get(`/getMaxSize${device}`, async (req, res) => {
+        try {
+            const [rows] = await pool.query(`SELECT MAX(id) AS \`MAX(id)\` FROM \`${table}\``);
+            res.json(rows);
+        } catch (err) {
+            console.error(`getMaxSize${device} error:`, err);
+            res.status(500).json({ error: 'Database error' });
+        }
+    });
+
+    app.post(`/fetchData${device}`, async (req, res) => {
+        try {
+            const { page = 1, size = 50 } = req.body || {};
+            const offset = (page - 1) * size;
+            const [rows] = await pool.query(
+                `SELECT * FROM \`${table}\` ORDER BY id DESC LIMIT ? OFFSET ?`,
+                [Number(size), Number(offset)]
+            );
+            res.json(rows);
+        } catch (err) {
+            console.error(`fetchData${device} error:`, err);
+            res.status(500).json({ error: 'Database error' });
+        }
+    });
+
+    app.get(`/fetchAllRecord${device}`, async (req, res) => {
+        try {
+            const [rows] = await pool.query(`SELECT * FROM \`${table}\` ORDER BY id DESC`);
+            res.json(rows);
+        } catch (err) {
+            console.error(`fetchAllRecord${device} error:`, err);
+            res.status(500).json({ error: 'Database error' });
+        }
+    });
+});
+
+// Generate PDF - not implemented server-side; return 501
+app.get('/generatePdf', async (req, res) => {
+    res.status(501).json({ error: 'PDF generation not implemented on server. Use CSV export.' });
+});
 
 // Start the server
 server.listen(8345, () => {

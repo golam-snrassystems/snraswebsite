@@ -18,6 +18,7 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
+realtime_tracker/.env
 
 # Firebase / Google service account (sensitive)
 serviceAccount.json
