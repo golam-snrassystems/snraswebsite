@@ -72,6 +72,46 @@ echo "8. Restarting nginx..."
 sudo systemctl restart nginx
 sudo systemctl enable nginx
 
+# Install Node.js and npm if not installed
+echo "9. Installing Node.js..."
+if ! command -v node &> /dev/null; then
+    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+    sudo apt install -y nodejs
+fi
+
+# Install backend dependencies
+echo "10. Installing backend dependencies..."
+cd $WEB_ROOT/realtime_tracker
+sudo npm install
+
+# Create systemd service for backend API
+echo "11. Setting up backend service..."
+sudo tee /etc/systemd/system/water-api.service > /dev/null <<'SERVICE_CONF'
+[Unit]
+Description=Water Quality API Server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/snras_website/realtime_tracker
+ExecStart=/usr/bin/node app.js
+Restart=always
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
+SERVICE_CONF
+
+# Enable and start the backend service
+sudo systemctl daemon-reload
+sudo systemctl enable water-api
+sudo systemctl start water-api
+
+# Open port 8345 in firewall
+echo "12. Opening API port..."
+sudo ufw allow 8345/tcp 2>/dev/null || true
+
 # Get server IP
 SERVER_IP=$(curl -s ifconfig.me || echo "34.100.201.70")
 
@@ -81,5 +121,11 @@ echo "Your website is now live at:"
 echo "  → http://$SERVER_IP"
 echo "  → http://34.100.201.70"
 echo ""
+echo "Backend API running on port 8345"
+echo ""
 echo "To update the site later, run:"
-echo "  cd $WEB_ROOT && sudo git pull && sudo systemctl reload nginx"
+echo "  cd $WEB_ROOT && sudo git pull && sudo systemctl reload nginx && sudo systemctl restart water-api"
+echo ""
+echo "To check backend status:"
+echo "  sudo systemctl status water-api"
+echo "  sudo journalctl -u water-api -f"
