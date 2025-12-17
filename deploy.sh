@@ -18,6 +18,7 @@ WEB_ROOT="/var/www/snras_website"
 
 if [ -d "$WEB_ROOT/.git" ]; then
     echo "3. Updating existing repo..."
+    sudo git config --global --add safe.directory $WEB_ROOT
     cd $WEB_ROOT
     sudo git pull
 else
