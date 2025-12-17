@@ -2,6 +2,10 @@
 # Deploy snras_website to VM
 set -e
 
+# Disable interactive prompts
+export DEBIAN_FRONTEND=noninteractive
+export NEEDRESTART_MODE=a
+
 echo "===== SNRAS Website Deployment ====="
 
 # Update system
