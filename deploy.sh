@@ -73,12 +73,10 @@ echo "8. Restarting nginx..."
 sudo systemctl restart nginx
 sudo systemctl enable nginx
 
-# Install Node.js and npm if not installed
-echo "9. Installing Node.js..."
-if ! command -v node &> /dev/null; then
-    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-    sudo apt install -y nodejs
-fi
+# Install Node.js 18
+echo "9. Installing Node.js 18..."
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
 
 # Install backend dependencies
 echo "10. Installing backend dependencies..."
